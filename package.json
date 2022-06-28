@@ -30,7 +30,7 @@
     "test": "npm run lint --silent && npm run test:unit:coverage",
     "test:unit": "npm run build:test && mocha",
     "test:unit:firefox": "cross-env PUPPETEER_PRODUCT=firefox npm run test:unit",
-    "test:unit:coverage": "c8 --check-coverage --lines 94 npm run test:unit",
+    "test:unit:coverage": "c8 --check-coverage --lines 93 npm run test:unit",
     "test:unit:chrome-headless": "cross-env HEADLESS=chrome npm run test:unit",
     "test:protocol-revision": "ts-node -s scripts/ensure-correct-devtools-protocol-package",
     "test:pinned-deps": "ts-node -s scripts/ensure-pinned-deps",
