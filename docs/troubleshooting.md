@@ -1,31 +1,8 @@
+---
+sidebar_position: 3
+---
+
 # Troubleshooting
-
-<!-- prettier-ignore-start -->
-
-<!-- GEN:toc -->
-- [Chrome headless doesn't launch on Windows](#chrome-headless-doesnt-launch-on-windows)
-- [Chrome headless doesn't launch on UNIX](#chrome-headless-doesnt-launch-on-unix)
-- [Chrome headless disables GPU compositing](#chrome-headless-disables-gpu-compositing)
-- [Chrome is downloaded but fails to launch on Node.js 14](#chrome-is-downloaded-but-fails-to-launch-on-nodejs-14)
-- [Setting Up Chrome Linux Sandbox](#setting-up-chrome-linux-sandbox)
-  * [[recommended] Enable user namespace cloning](#recommended-enable-user-namespace-cloning)
-  * [[alternative] Setup setuid sandbox](#alternative-setup-setuid-sandbox)
-- [Running Puppeteer on Travis CI](#running-puppeteer-on-travis-ci)
-- [Running Puppeteer on CircleCI](#running-puppeteer-on-circleci)
-- [Running Puppeteer in Docker](#running-puppeteer-in-docker)
-  * [Running on Alpine](#running-on-alpine)
-    - [Tips](#tips)
-- [Running Puppeteer in the cloud](#running-puppeteer-in-the-cloud)
-  * [Running Puppeteer on Google App Engine](#running-puppeteer-on-google-app-engine)
-  * [Running Puppeteer on Google Cloud Functions](#running-puppeteer-on-google-cloud-functions)
-  * [Running Puppeteer on Google Cloud Run](#running-puppeteer-on-google-cloud-run)
-  * [Running Puppeteer on Heroku](#running-puppeteer-on-heroku)
-  * [Running Puppeteer on AWS Lambda](#running-puppeteer-on-aws-lambda)
-  * [Running Puppeteer on AWS EC2 instance running Amazon-Linux](#running-puppeteer-on-aws-ec2-instance-running-amazon-linux)
-- [Code Transpilation Issues](#code-transpilation-issues)
-<!-- GEN:stop -->
-
-<!-- prettier-ignore-end -->
 
 ## Chrome headless doesn't launch on Windows
 
@@ -134,6 +111,7 @@ yum update nss -y
 - [#290](https://github.com/puppeteer/puppeteer/issues/290) - Debian troubleshooting <br/>
 - [#391](https://github.com/puppeteer/puppeteer/issues/391) - CentOS troubleshooting <br/>
 - [#379](https://github.com/puppeteer/puppeteer/issues/379) - Alpine troubleshooting <br/>
+
 </details>
 
 ## Chrome headless disables GPU compositing
@@ -173,7 +151,11 @@ const browser = await puppeteer.launch({
 });
 ```
 
-> **NOTE**: Running without a sandbox is **strongly discouraged**. Consider configuring a sandbox instead.
+:::caution
+
+Running without a sandbox is **strongly discouraged**. Consider configuring a sandbox instead.
+
+:::
 
 There are 2 ways to configure a sandbox in Chromium.
 

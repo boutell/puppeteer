@@ -1,0 +1,21 @@
+# ErrorCode type
+
+**Signature:**
+
+```typescript
+export declare type ErrorCode =
+  | 'aborted'
+  | 'accessdenied'
+  | 'addressunreachable'
+  | 'blockedbyclient'
+  | 'blockedbyresponse'
+  | 'connectionaborted'
+  | 'connectionclosed'
+  | 'connectionfailed'
+  | 'connectionrefused'
+  | 'connectionreset'
+  | 'internetdisconnected'
+  | 'namenotresolved'
+  | 'timedout'
+  | 'failed';
+```
