@@ -1,0 +1,11 @@
+## EvaluateFunc type
+
+**Signature:**
+
+```typescript
+export declare type EvaluateFunc<T extends unknown[]> = (
+  ...params: InnerParams<T>
+) => Awaitable<unknown>;
+```
+
+**References:** [InnerParams](./puppeteer.innerparams.md), [Awaitable](./puppeteer.awaitable.md)

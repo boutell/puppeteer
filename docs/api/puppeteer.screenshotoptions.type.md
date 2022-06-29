@@ -1,0 +1,9 @@
+## ScreenshotOptions.type property
+
+**Signature:**
+
+```typescript
+interface ScreenshotOptions {
+  type?: 'png' | 'jpeg' | 'webp';
+}
+```

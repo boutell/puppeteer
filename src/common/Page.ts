@@ -230,7 +230,7 @@ export const enum PageEmittedEvents {
    *
    * @example
    * An example of handling `console` event:
-   * ```js
+   * ```ts
    * page.on('console', msg => {
    *   for (let i = 0; i < msg.args().length; ++i)
    *    console.log(`${i}: ${msg.args()[i]}`);
@@ -289,14 +289,14 @@ export const enum PageEmittedEvents {
    *
    * @example
    *
-   * ```js
+   * ```ts
    * const [popup] = await Promise.all([
    *   new Promise(resolve => page.once('popup', resolve)),
    *   page.click('a[target=_blank]'),
    * ]);
    * ```
    *
-   * ```js
+   * ```ts
    * const [popup] = await Promise.all([
    *   new Promise(resolve => page.once('popup', resolve)),
    *   page.evaluate(() => window.open('https://example.com')),
@@ -326,10 +326,9 @@ export const enum PageEmittedEvents {
    * Contains a {@link HTTPRequest}.
    *
    * @remarks
-   *
-   * NOTE: HTTP Error responses, such as 404 or 503, are still successful
-   * responses from HTTP standpoint, so request will complete with
-   * `requestfinished` event and not with `requestfailed`.
+   * HTTP Error responses, such as 404 or 503, are still successful responses
+   * from HTTP standpoint, so request will complete with `requestfinished` event
+   * and not with `requestfailed`.
    */
   RequestFailed = 'requestfailed',
   /**
@@ -393,7 +392,7 @@ export interface PageEventObject {
  *
  * @example
  * This example creates a page, navigates it to a URL, and then * saves a screenshot:
- * ```js
+ * ```ts
  * const puppeteer = require('puppeteer');
  *
  * (async () => {
@@ -410,13 +409,13 @@ export interface PageEventObject {
  *
  * @example
  * This example logs a message for a single page `load` event:
- * ```js
+ * ```ts
  * page.once('load', () => console.log('Page loaded!'));
  * ```
  *
  * To unsubscribe from events use the `off` method:
  *
- * ```js
+ * ```ts
  * function logRequest(interceptedRequest) {
  *   console.log('A request was made:', interceptedRequest.url());
  * }
@@ -712,7 +711,7 @@ export class Page extends EventEmitter {
    * choosing. The following example clicks a button that issues a file chooser
    * and then responds with `/tmp/myfile.pdf` as if a user has selected this file.
    *
-   * ```js
+   * ```ts
    * const [fileChooser] = await Promise.all([
    * page.waitForFileChooser(),
    * page.click('#upload-file-button'),
@@ -721,12 +720,15 @@ export class Page extends EventEmitter {
    * await fileChooser.accept(['/tmp/myfile.pdf']);
    * ```
    *
-   * NOTE: This must be called before the file chooser is launched. It will not
+   * :::caution
+   * This *must* be called before the file chooser is launched. It will not
    * return a currently active file chooser.
+   * :::
+   *
    * @param options - Optional waiting parameters
    * @returns Resolves after a page requests a file picker.
    * @remarks
-   * NOTE: In non-headless Chromium, this method results in the native file picker
+   * In non-headless Chromium, this method results in the native file picker
    * dialog `not showing up` for the user.
    */
   async waitForFileChooser(
@@ -760,7 +762,7 @@ export class Page extends EventEmitter {
    * NOTE: Consider using {@link BrowserContext.overridePermissions} to grant
    * permissions for the page to read its geolocation.
    * @example
-   * ```js
+   * ```ts
    * await page.setGeolocation({latitude: 59.95, longitude: 30.31667});
    * ```
    */
@@ -896,7 +898,7 @@ export class Page extends EventEmitter {
    *
    * @example
    * An example of a naïve request interceptor that aborts all image requests:
-   * ```js
+   * ```ts
    * const puppeteer = require('puppeteer');
    * (async () => {
    *   const browser = await puppeteer.launch();
@@ -946,7 +948,7 @@ export class Page extends EventEmitter {
   /**
    * @param networkConditions - Passing `null` disables network condition emulation.
    * @example
-   * ```js
+   * ```ts
    * const puppeteer = require('puppeteer');
    * const slow3G = puppeteer.networkConditions['Slow 3G'];
    *
@@ -1048,13 +1050,13 @@ export class Page extends EventEmitter {
    * recommended as they are easier to debug and use with TypeScript):
    *
    * @example
-   * ```
+   * ```ts
    * const aHandle = await page.evaluateHandle('document')
    * ```
    *
    * @example
    * {@link JSHandle} instances can be passed as arguments to the `pageFunction`:
-   * ```
+   * ```ts
    * const aHandle = await page.evaluateHandle(() => document.body);
    * const resultHandle = await page.evaluateHandle(body => body.innerHTML, aHandle);
    * console.log(await resultHandle.jsonValue());
@@ -1066,7 +1068,7 @@ export class Page extends EventEmitter {
    * you instead get an {@link ElementHandle} back:
    *
    * @example
-   * ```
+   * ```ts
    * const button = await page.evaluateHandle(() => document.querySelector('button'));
    * // can call `click` because `button` is an `ElementHandle`
    * await button.click();
@@ -1076,7 +1078,7 @@ export class Page extends EventEmitter {
    *  a `JSHandle`, but if you know it's going to return an
    * `ElementHandle`, pass it as the generic argument:
    *
-   * ```
+   * ```ts
    * const button = await page.evaluateHandle<ElementHandle>(...);
    * ```
    *
@@ -1105,7 +1107,7 @@ export class Page extends EventEmitter {
    *
    * @example
    *
-   * ```js
+   * ```ts
    * // Create a Map object
    * await page.evaluate(() => window.map = new Map());
    * // Get a handle to the Map object prototype
@@ -1141,7 +1143,7 @@ export class Page extends EventEmitter {
    *
    * @example
    *
-   * ```
+   * ```ts
    * const searchValue = await page.$eval('#search', el => el.value);
    * const preloadHref = await page.$eval('link[rel=preload]', el => el.href);
    * const html = await page.$eval('.main-container', el => el.outerHTML);
@@ -1154,7 +1156,7 @@ export class Page extends EventEmitter {
    *
    * @example
    *
-   * ```
+   * ```ts
    * // if you don't provide HTMLInputElement here, TS will error
    * // as `value` is not on `Element`
    * const searchValue = await page.$eval('#search', (el: HTMLInputElement) => el.value);
@@ -1166,7 +1168,7 @@ export class Page extends EventEmitter {
    *
    * @example
    *
-   * ```
+   * ```ts
    * // The compiler can infer the return type in this case, but if it can't
    * // or if you want to be more explicit, provide it as the generic type.
    * const searchValue = await page.$eval<string>(
@@ -1231,7 +1233,7 @@ export class Page extends EventEmitter {
    *
    * @example
    *
-   * ```
+   * ```ts
    * // get the amount of divs on the page
    * const divCount = await page.$$eval('div', divs => divs.length);
    *
@@ -1248,7 +1250,7 @@ export class Page extends EventEmitter {
    *
    * @example
    *
-   * ```
+   * ```ts
    * // if you don't provide HTMLInputElement here, TS will error
    * // as `value` is not on `Element`
    * await page.$$eval('input', (elements: HTMLInputElement[]) => {
@@ -1262,7 +1264,7 @@ export class Page extends EventEmitter {
    *
    * @example
    *
-   * ```
+   * ```ts
    * // The compiler can infer the return type in this case, but if it can't
    * // or if you want to be more explicit, provide it as the generic type.
    * const allInputValues = await page.$$eval<string[]>(
@@ -1366,7 +1368,7 @@ export class Page extends EventEmitter {
 
   /**
    * @example
-   * ```js
+   * ```ts
    * await page.setCookie(cookieObject1, cookieObject2);
    * ```
    */
@@ -1438,7 +1440,7 @@ export class Page extends EventEmitter {
    * Puppeteer's context.
    * @example
    * An example of adding an `md5` function into the page:
-   * ```js
+   * ```ts
    * const puppeteer = require('puppeteer');
    * const crypto = require('crypto');
    *
@@ -1459,7 +1461,7 @@ export class Page extends EventEmitter {
    * })();
    * ```
    * An example of adding a `window.readfile` function into the page:
-   * ```js
+   * ```ts
    * const puppeteer = require('puppeteer');
    * const fs = require('fs');
    *
@@ -1917,7 +1919,7 @@ export class Page extends EventEmitter {
    * This resolves when the page navigates to a new URL or reloads. It is useful
    * when you run code that will indirectly cause the page to navigate. Consider
    * this example:
-   * ```js
+   * ```ts
    * const [response] = await Promise.all([
    * page.waitForNavigation(), // The promise resolves after navigation has finished
    * page.click('a.my-link'), // Clicking the link will indirectly cause a navigation
@@ -1959,7 +1961,7 @@ export class Page extends EventEmitter {
    * @param options - Optional waiting parameters
    * @returns Promise which resolves to the matched response
    * @example
-   * ```js
+   * ```ts
    * const firstResponse = await page.waitForResponse(
    * 'https://example.com/resource'
    * );
@@ -2006,7 +2008,7 @@ export class Page extends EventEmitter {
    * @param options - Optional waiting parameters
    * @returns Promise which resolves to the matched response.
    * @example
-   * ```js
+   * ```ts
    * const firstResponse = await page.waitForResponse(
    * 'https://example.com/resource'
    * );
@@ -2131,7 +2133,7 @@ export class Page extends EventEmitter {
    * @param options - Optional waiting parameters
    * @returns Promise which resolves to the matched frame.
    * @example
-   * ```js
+   * ```ts
    * const frame = await page.waitForFrame(async (frame) => {
    *   return frame.name() === 'Test';
    * });
@@ -2288,7 +2290,7 @@ export class Page extends EventEmitter {
    * don't expect phones to change size, so you should emulate before navigating
    * to the page.
    * @example
-   * ```js
+   * ```ts
    * const puppeteer = require('puppeteer');
    * const iPhone = puppeteer.devices['iPhone 6'];
    * (async () => {
@@ -2347,7 +2349,7 @@ export class Page extends EventEmitter {
    * values are `screen`, `print` and `null`. Passing `null` disables CSS media
    * emulation.
    * @example
-   * ```
+   * ```ts
    * await page.evaluate(() => matchMedia('screen').matches);
    * // → true
    * await page.evaluate(() => matchMedia('print').matches);
@@ -2397,7 +2399,7 @@ export class Page extends EventEmitter {
    * objects, emulates CSS media features on the page. Each media feature object
    * must have the following properties:
    * @example
-   * ```js
+   * ```ts
    * await page.emulateMediaFeatures([
    * { name: 'prefers-color-scheme', value: 'dark' },
    * ]);
@@ -2488,7 +2490,7 @@ export class Page extends EventEmitter {
    * If no arguments set, clears idle state emulation.
    *
    * @example
-   * ```js
+   * ```ts
    * // set idle emulation
    * await page.emulateIdleState({isUserActive: true, isScreenUnlocked: false});
    *
@@ -2519,7 +2521,7 @@ export class Page extends EventEmitter {
    * Simulates the given vision deficiency on the page.
    *
    * @example
-   * ```js
+   * ```ts
    * const puppeteer = require('puppeteer');
    *
    * (async () => {
@@ -2576,7 +2578,7 @@ export class Page extends EventEmitter {
    * In the case of multiple pages in a single browser, each page can have its
    * own viewport size.
    * @example
-   * ```js
+   * ```ts
    * const page = await browser.newPage();
    * await page.setViewport({
    * width: 640,
@@ -2648,7 +2650,7 @@ export class Page extends EventEmitter {
    *
    * @example
    *
-   * ```js
+   * ```ts
    * const result = await frame.evaluate(() => {
    *   return Promise.resolve(8 * 7);
    * });
@@ -2659,15 +2661,15 @@ export class Page extends EventEmitter {
    * recommended as they are easier to debug and use with TypeScript):
    *
    * @example
-   * ```
+   * ```ts
    * const aHandle = await page.evaluate('1 + 2');
    * ```
    *
    * To get the best TypeScript experience, you should pass in as the
    * generic the type of `pageFunction`:
    *
-   * ```
-   * const aHandle = await page.evaluate<() => number>(() => 2);
+   * ```ts
+   * const aHandle = await page.evaluate(() => 2);
    * ```
    *
    * @example
@@ -2675,7 +2677,7 @@ export class Page extends EventEmitter {
    * {@link ElementHandle} instances (including {@link JSHandle}s) can be passed
    * as arguments to the `pageFunction`:
    *
-   * ```
+   * ```ts
    * const bodyHandle = await page.$('body');
    * const html = await page.evaluate(body => body.innerHTML, bodyHandle);
    * await bodyHandle.dispose();
@@ -2711,7 +2713,7 @@ export class Page extends EventEmitter {
    * @param args - Arguments to pass to `pageFunction`
    * @example
    * An example of overriding the navigator.languages property before the page loads:
-   * ```js
+   * ```ts
    * // preload.js
    *
    * // overwrite the `languages` property to use a custom getter
@@ -3133,7 +3135,7 @@ export class Page extends EventEmitter {
    * there's a separate `page.waitForNavigation()` promise to be resolved, you
    * may end up with a race condition that yields unexpected results. The
    * correct pattern for click and wait for navigation is the following:
-   * ```js
+   * ```ts
    * const [response] = await Promise.all([
    * page.waitForNavigation(waitOptions),
    * page.click(selector, clickOptions),
@@ -3199,7 +3201,7 @@ export class Page extends EventEmitter {
    * throws an error.
    *
    * @example
-   * ```js
+   * ```ts
    * page.select('select#colors', 'blue'); // single selection
    * page.select('select#colors', 'red', 'green', 'blue'); // multiple selections
    * ```
@@ -3240,7 +3242,7 @@ export class Page extends EventEmitter {
    *
    * To press a special key, like `Control` or `ArrowDown`, use {@link Keyboard.press}.
    * @example
-   * ```
+   * ```ts
    * await page.type('#mytextarea', 'Hello');
    * // Types instantly
    * await page.type('#mytextarea', 'World', { delay: 100 });
@@ -3277,7 +3279,7 @@ export class Page extends EventEmitter {
    *
    * Wait for 1 second:
    *
-   * ```
+   * ```ts
    * await page.waitForTimeout(1000);
    * ```
    *
@@ -3294,7 +3296,7 @@ export class Page extends EventEmitter {
    * function will throw.
    *
    * This method works across navigations:
-   * ```js
+   * ```ts
    * const puppeteer = require('puppeteer');
    * (async () => {
    * const browser = await puppeteer.launch();
@@ -3357,7 +3359,7 @@ export class Page extends EventEmitter {
    * function will throw.
    *
    * This method works across navigation
-   * ```js
+   * ```ts
    * const puppeteer = require('puppeteer');
    * (async () => {
    * const browser = await puppeteer.launch();
@@ -3412,7 +3414,7 @@ export class Page extends EventEmitter {
   /**
    * The `waitForFunction` can be used to observe viewport size change:
    *
-   * ```
+   * ```ts
    * const puppeteer = require('puppeteer');
    * (async () => {
    * const browser = await puppeteer.launch();
@@ -3424,7 +3426,7 @@ export class Page extends EventEmitter {
    * })();
    * ```
    * To pass arguments from node.js to the predicate of `page.waitForFunction` function:
-   * ```
+   * ```ts
    * const selector = '.foo';
    * await page.waitForFunction(
    * (selector) => !!document.querySelector(selector),
@@ -3433,7 +3435,7 @@ export class Page extends EventEmitter {
    * );
    * ```
    * The predicate of `page.waitForFunction` can be asynchronous too:
-   * ```
+   * ```ts
    * const username = 'github-username';
    * await page.waitForFunction(
    * async (username) => {

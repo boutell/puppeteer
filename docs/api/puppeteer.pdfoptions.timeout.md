@@ -1,0 +1,11 @@
+## PDFOptions.timeout property
+
+Timeout in milliseconds
+
+**Signature:**
+
+```typescript
+interface PDFOptions {
+  timeout?: number;
+}
+```

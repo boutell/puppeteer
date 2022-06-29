@@ -1,0 +1,11 @@
+## LaunchOptions.handleSIGINT property
+
+Close the browser process on `Ctrl+C`.
+
+**Signature:**
+
+```typescript
+interface LaunchOptions {
+  handleSIGINT?: boolean;
+}
+```
