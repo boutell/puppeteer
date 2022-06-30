@@ -727,6 +727,7 @@ export class Browser extends EventEmitter {
    * cannot be used anymore.
    */
   disconnect(): void {
+    this.#targetManager.dispose();
     this.#connection.dispose();
   }
 
